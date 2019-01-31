@@ -1,7 +1,9 @@
-﻿using RZTaskManager.View;
+﻿using RZTaskManager.Model;
+using RZTaskManager.View;
 using RZTaskManager.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -30,60 +32,37 @@ namespace RZTaskManager
             InitializeComponent();
             //DataContext = MainViewModel;
 
-            MessageBox.Show(((TimeSpan)CheckWorkDate(sleepWork,true)).ToString());
-
-            if (false)
+            //MessageBox.Show(((TimeSpan)CheckWorkTime.Check(sleepWork,true)).ToString());
+            ObservableCollection<Detail> Details = new ObservableCollection<Detail>();
+            if (true)
             {
                 //Process.Start("notepad");
                 //Process.Start("Text.txt");
                 //Process.Start("chrome", "https://facebook.com");
                 //Process.Start("notepad++", "Text.txt");
                 Process[] processes = Process.GetProcesses();
-                List<Process> processesList = new List<Process>();
-                processesList.AddRange(processes);
+                //List<Process> processesList = new List<Process>();
+                //processesList.AddRange(processes);
                 string str = string.Empty;
                 foreach (Process item in processes)
                 {
                     try
                     {
-                        str += item.Id.ToString() + " " + item.ProcessName.ToString() + " " + item.PriorityClass.ToString() + " \\ ";
+                        str += item.Id.ToString() + " " + 
+                               item.SessionId.ToString() + " " + 
+                               item.ProcessName.ToString() + " " + 
+                               item.PriorityClass.ToString() + " \\ ";
+                        Detail detail = new Detail();
+                        detail.Name = item.ProcessName;
+                        detail.PID = item.Id;
+                        detail.Status = "Running";
+                        detail.UserName = item.MachineName;
+                        detail.Memory = ((double)(item.PagedMemorySize64 / 1024)).ToString();
+                        Details.Add(detail);
                     }
                     catch (Exception) { }
                 }
                 MessageBox.Show(str);
-            }
-        }
-
-        private object CheckWorkDate(Action action, bool save = true)
-        {
-            if (!save)
-            {
-                DateTime start = DateTime.Now;
-                action();
-                return (DateTime.Now - start);
-            }
-            else
-            {
-                DateTime start = DateTime.Now;
-                action();
-                TimeSpan ts = (DateTime.Now - start);
-
-                string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\TT.txt";
-
-                string txt;
-                if (File.Exists(path))
-                {
-                    using (StreamReader sr = new StreamReader(File.OpenRead(path)))
-                    {
-                        txt = sr.ReadToEnd();
-                    }
-                    txt += "\n" + ts.ToString();
-                }
-                else txt = ts.ToString();
-
-                File.WriteAllText(path, txt, Encoding.UTF8);
-
-                return ts;
             }
         }
 

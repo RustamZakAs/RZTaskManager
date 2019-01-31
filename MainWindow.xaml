@@ -20,7 +20,7 @@
                     <TextBlock FontSize="15"
                                Background="Red" 
                                Text="Users" 
-                               Grid.Row="0"></TextBlock>
+                               Grid.Row="0"/>
                     <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding }">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -46,9 +46,25 @@
                     <TextBlock FontSize="15" 
                                Background="Red" 
                                Text="Details" 
-                               Grid.Row="0"></TextBlock>
+                               Grid.Row="0"/>
                     <ListBox Grid.Row="1" Grid.ColumnSpan="2">
-
+                        <ListBox Grid.Row="1" Grid.ColumnSpan="2" 
+                                 ItemsSource="{Binding Details, ElementName=MainWindow}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5" Orientation="Horizontal">
+                                        <!--<Image Width="100" Height="75" Source="{Binding Path=ImagePath}" />-->
+                                        <TextBlock FontSize="16" Text="{Binding Path=Name}" HorizontalAlignment="Center" />
+                                        <TextBlock FontSize="16" Text="{Binding Path=PID}" HorizontalAlignment="Center" />
+                                        <TextBlock FontSize="16" Text="{Binding Path=Status}" HorizontalAlignment="Center" />
+                                        <TextBlock FontSize="16" Text="{Binding Path=UserName}" HorizontalAlignment="Center" />
+                                        <TextBlock FontSize="16" Text="{Binding Path=CPU}" HorizontalAlignment="Center" />
+                                        <TextBlock FontSize="16" Text="{Binding Path=Memory}" HorizontalAlignment="Center" />
+                                        <TextBlock FontSize="16" Text="{Binding Path=Description}" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </ListBox>
                 </Grid>
             </TabItem>
