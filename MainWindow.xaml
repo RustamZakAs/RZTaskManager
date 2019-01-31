@@ -21,8 +21,16 @@
                                Background="Red" 
                                Text="Users" 
                                Grid.Row="0"></TextBlock>
-                    <ListBox Grid.Row="1" Grid.ColumnSpan="2">
-
+                    <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding }">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="5" Orientation="Horizontal">
+                                    <!--<Image Width="100" Height="75" Source="{Binding Path=ImagePath}" />-->
+                                    <TextBlock FontSize="16" Text="{Binding Path=Title}" HorizontalAlignment="Center" />
+                                    <TextBlock FontSize="16" Text="{Binding Path=Company}" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
             </TabItem>
