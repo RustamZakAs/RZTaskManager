@@ -4,6 +4,7 @@ using RZTaskManager.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -25,50 +26,63 @@ namespace RZTaskManager
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private string text = "Details";
+        public string Text { get => text; set => Set(ref text, value); }
+
+        private ObservableCollection<Detail> details;
+        public ObservableCollection<Detail> Details { get => details; set => Set(ref details, value); }
+
+        ObservableCollection<Detail> Users = new ObservableCollection<Detail>();
+
+        private Detail selectedDetail;
+        public Detail SelectedDetail { get => selectedDetail; set => Set(ref selectedDetail, value); }
+
         public MainWindow()
         {
             InitializeComponent();
-            //DataContext = MainViewModel;
+            Details = new ObservableCollection<Detail>();
+            DataContext = this;
 
             //MessageBox.Show(((TimeSpan)CheckWorkTime.Check(sleepWork,true)).ToString());
-            ObservableCollection<Detail> Details = new ObservableCollection<Detail>();
-            if (true)
+            
+            //Process.Start("notepad");
+            //Process.Start("Text.txt");
+            //Process.Start("chrome", "https://facebook.com");
+            //Process.Start("notepad++", "Text.txt");
+            Process[] processes = Process.GetProcesses();
+            //List<Process> processesList = new List<Process>();
+            //processesList.AddRange(processes);
+            string str = string.Empty;
+            foreach (Process item in processes)
             {
-                //Process.Start("notepad");
-                //Process.Start("Text.txt");
-                //Process.Start("chrome", "https://facebook.com");
-                //Process.Start("notepad++", "Text.txt");
-                Process[] processes = Process.GetProcesses();
-                //List<Process> processesList = new List<Process>();
-                //processesList.AddRange(processes);
-                string str = string.Empty;
-                foreach (Process item in processes)
+                try
                 {
-                    try
-                    {
-                        str += item.Id.ToString() + " " + 
-                               item.SessionId.ToString() + " " + 
-                               item.ProcessName.ToString() + " " + 
-                               item.PriorityClass.ToString() + " \\ ";
-                        Detail detail = new Detail();
-                        detail.Name = item.ProcessName;
-                        detail.PID = item.Id;
-                        detail.Status = "Running";
-                        detail.UserName = item.MachineName;
-                        detail.Memory = ((double)(item.PagedMemorySize64 / 1024)).ToString();
-                        Details.Add(detail);
-                    }
-                    catch (Exception) { }
+                    str += item.Id.ToString() + " " + 
+                            item.SessionId.ToString() + " " + 
+                            item.ProcessName.ToString() + " " + 
+                            item.PriorityClass.ToString() + " \\ ";
+                    Detail detail = new Detail();
+
+                    detail.Name = item.ProcessName;
+                    detail.PID = item.Id;
+                    detail.Status = "Running";
+                    detail.UserName = item.MachineName;
+                    detail.Memory = ((double)(item.PagedMemorySize64 / 1024)).ToString();
+                    Details.Add(detail);
                 }
-                MessageBox.Show(str);
+                catch (Exception) { }
             }
+            //MessageBox.Show(str);
+            MessageBox.Show(Details[0].Name);
         }
 
-        private void sleepWork()
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Set<T>(ref T field, T value, [System.Runtime.CompilerServices.CallerMemberName]string prop = "")
         {
-            Thread.Sleep(2000);
+            field = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

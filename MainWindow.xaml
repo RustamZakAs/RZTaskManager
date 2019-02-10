@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RZTaskManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="250" Width="500">
+        d:DataContext="{d:DesignInstance local:MainWindow}"
+        Title="MainWindow" Height="250" Width="450" x:Name="xMainWindow">
     <Grid>
         <TabControl>
-            <TabItem Width="60" Height="20" Header="Users">
+            <!--<TabItem Width="60" Height="20" Header="Users">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -21,11 +22,11 @@
                                Background="Red" 
                                Text="Users" 
                                Grid.Row="0"/>
-                    <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding }">
+                    <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Users}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="5" Orientation="Horizontal">
-                                    <!--<Image Width="100" Height="75" Source="{Binding Path=ImagePath}" />-->
+                                    --><!--<Image Width="100" Height="75" Source="{Binding Path=ImagePath}" />--><!--
                                     <TextBlock FontSize="16" Text="{Binding Path=Title}" HorizontalAlignment="Center" />
                                     <TextBlock FontSize="16" Text="{Binding Path=Company}" HorizontalAlignment="Center" />
                                 </StackPanel>
@@ -33,39 +34,106 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
-            </TabItem>
+            </TabItem>-->
             <TabItem Width="60" Height="20" Header="Details">
-                <Grid>
+                <Grid >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <TextBlock FontSize="15" 
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" FontSize="15" 
                                Background="Red" 
-                               Text="Details" 
-                               Grid.Row="0"/>
-                    <ListBox Grid.Row="1" Grid.ColumnSpan="2">
-                        <ListBox Grid.Row="1" Grid.ColumnSpan="2" 
-                                 ItemsSource="{Binding Details, ElementName=MainWindow}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Margin="5" Orientation="Horizontal">
-                                        <!--<Image Width="100" Height="75" Source="{Binding Path=ImagePath}" />-->
-                                        <TextBlock FontSize="16" Text="{Binding Path=Name}" HorizontalAlignment="Center" />
-                                        <TextBlock FontSize="16" Text="{Binding Path=PID}" HorizontalAlignment="Center" />
-                                        <TextBlock FontSize="16" Text="{Binding Path=Status}" HorizontalAlignment="Center" />
-                                        <TextBlock FontSize="16" Text="{Binding Path=UserName}" HorizontalAlignment="Center" />
-                                        <TextBlock FontSize="16" Text="{Binding Path=CPU}" HorizontalAlignment="Center" />
-                                        <TextBlock FontSize="16" Text="{Binding Path=Memory}" HorizontalAlignment="Center" />
-                                        <TextBlock FontSize="16" Text="{Binding Path=Description}" HorizontalAlignment="Center" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                               Text="{Binding Text}"/>
+                    <ListBox Grid.Row="1"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             Name="listBoxKeys" 
+                             ItemsSource="{Binding Details}"
+                             SelectedItem="{Binding Path=SelectedDetail,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <ListBox.Template>
+                            <ControlTemplate>
+                                <DockPanel LastChildFill="True">
+                                    <Grid DockPanel.Dock="Top" Height="19" HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"></ColumnDefinition>
+                                            <ColumnDefinition Width="60"></ColumnDefinition>
+                                            <ColumnDefinition Width="60"></ColumnDefinition>
+                                            <ColumnDefinition Width="60"></ColumnDefinition>
+                                            <ColumnDefinition Width="60"></ColumnDefinition>
+                                            <ColumnDefinition Width="60"></ColumnDefinition>
+                                            <ColumnDefinition Width="60"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">Name</TextBlock>
+                                        <TextBlock Grid.Column="1">PID</TextBlock>
+                                        <TextBlock Grid.Column="2">Status</TextBlock>
+                                        <TextBlock Grid.Column="3">User name</TextBlock>
+                                        <TextBlock Grid.Column="4">CPU</TextBlock>
+                                        <TextBlock Grid.Column="5">Memory</TextBlock>
+                                        <TextBlock Grid.Column="6">Description</TextBlock>
+                                    </Grid>
+                                    <ItemsPresenter></ItemsPresenter>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </ListBox.Template>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"></ColumnDefinition>
+                                        <ColumnDefinition Width="60"></ColumnDefinition>
+                                        <ColumnDefinition Width="60"></ColumnDefinition>
+                                        <ColumnDefinition Width="60"></ColumnDefinition>
+                                        <ColumnDefinition Width="60"></ColumnDefinition>
+                                        <ColumnDefinition Width="60"></ColumnDefinition>
+                                        <ColumnDefinition Width="60"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" FontSize="16" Text="{Binding Path=Name}" 
+                                                   HorizontalAlignment="Left" />
+                                    <TextBlock Grid.Column="1" FontSize="16" Text="{Binding Path=PID}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="2" FontSize="16" Text="{Binding Path=Status}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="3" FontSize="16" Text="{Binding Path=UserName}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="4" FontSize="16" Text="{Binding Path=CPU}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="5" FontSize="16" Text="{Binding Path=Memory}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="6" FontSize="16" Text="{Binding Path=Description}" 
+                                                   HorizontalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
+                    <!--<ListBox x:Name="DetailList" Grid.Row="1" Grid.ColumnSpan="2" 
+                             HorizontalContentAlignment="Stretch"
+                             SelectedItem="{Binding Path=SelectedDetail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             ItemsSource="{Binding Path=MainWindow.Details}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="5" Orientation="Horizontal">
+                                    --><!--<Image Width="100" Height="75" Source="{Binding Path=ImagePath}" />--><!--
+                                    <TextBlock FontSize="16" Text="{Binding Path=Name}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock FontSize="16" Text="{Binding Path=PID}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock FontSize="16" Text="{Binding Path=Status}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock FontSize="16" Text="{Binding Path=UserName}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock FontSize="16" Text="{Binding Path=CPU}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock FontSize="16" Text="{Binding Path=Memory}" 
+                                                   HorizontalAlignment="Center" />
+                                    <TextBlock FontSize="16" Text="{Binding Path=Description}" 
+                                                   HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>-->
                 </Grid>
             </TabItem>
         </TabControl>

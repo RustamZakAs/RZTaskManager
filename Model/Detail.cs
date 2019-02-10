@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RZTaskManager.Model
 {
-    class Detail : INotifyPropertyChanged
+    public class Detail : INotifyPropertyChanged
     {
         private string name = string.Empty;
         public string Name { get => name; set => Set(ref name, value); }
